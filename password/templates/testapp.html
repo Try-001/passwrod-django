@@ -1,0 +1,44 @@
+{% extends "base.html" %}{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
+{% endblock %}
+
+
+
+
+{% block content %}
+    <div>
+        <div>
+            <p>视频教程:<a href={% url 'videotest' %} target="_blank">教程!</a></p>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-widget">
+                    <div class="box-body">
+                        <table class="table" id="id_table" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>Host</th>
+                                <th>Port</th>
+                                <th>Username</th>
+                                <th>Owner</th>
+                                <th>Contact</th>
+                                <th>CreateTime</th>
+                                <th>Notes</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in lPage %}
+                                <td>{{ item }}</td>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

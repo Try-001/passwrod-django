@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<h1 style="text-align:center;">数据库里的ECS数据展示</h1>
+        <script>
+                function ()
+                        {
+                        var name=prompt("请输入要执行的命令：1>测试连通；2>部署模块并启动；","1");
+                        var userids = [];	//配置一个空集
+                        $("input:checkbox[name = ecs]:checked").each(function(i){    //使用循环遍历迭代的方式得到所有被选中的checkbox复选框
+                                console.log($(this).val());
+                                userids.push( $(this).val() ); //当前被选中checkbox背后对应的值
+                                        })
+                        if(confirm("你确定要对"+userids+"进行"+name+"操作？"))		//让用户再次确认
+                                {
+                                location.href="{% url "run_command" %}";
+                                }
+                        else
+                                {
+                                return false;	//停留在本页，没有操作
+                                }
+                        }
+        </script>
+        <div align="left" style="float:left">
+                <a href="{% url "create_ecs" %}"><button type="button" class="btn btn-default">返回录入界面</button></a>
+        </div>
+        <form action="/k8s/run_command/" method="POST">
+        <div align="right" style="float:left">
+                <button type="submit" class="btn btn-default" onclick="return ecs_deploy()" />选择服务器</button>		//这里添加了return
+        </div>
+        <table width="100%" border="1">
+                <thead>
+                        <br>
+                <form>
+                        <tr>
+                        <td align="center">序号</td>
+                        <td align="center">云服务器名称</td>
+                        <td align="center">云服务器ID</td>
+                        <td align="center">内网地址</td>
+                        <td align="center">外网地址</td>
+                        <td align="center">操作系统</td>
+                        <td align="center">网络类型</td>
+                        <td align="center">CPU</td>
+                        <td align="center">内存</td>
+                        <td align="center">外网带宽</td>
+                        <td align="center">备注</td>
+                        </tr>
+                </thead>
+                <tbody>
+                        {% for ecs in ecss %}
+                        <tr>
+                                <td><input type="checkbox" value={{ecs.name}} name="ecs"/>{{ ecs.id }} </td>
+                                <td align="center">{{ ecs.name }} </td>
+                                <td align="center">{{ ecs.ecsid }}</td>
+                                <td align="center">{{ ecs.inIP }}</td>
+                                <td align="center">{{ ecs.outIP }}</td>
+                                <td align="center">{{ ecs.osname }}</td>
+                                <td align="center">{{ ecs.networktype }}</td>
+                                <td align="center">{{ ecs.CPU }}</td>
+                                <td align="center">{{ ecs.memory }}</td>
+                                <td align="center">{{ ecs.netwidth }}</td>
+                                <td align="center">{{ ecs.remark }}</td>
+                        </tr>
+                        {% endfor %}
+                </tbody>
+        </table>
+        </form>
+
+</body>
+</html>
